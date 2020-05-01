@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+  - "8"
+  - "10"
+  - "12"
+  - "14"
+
+env:
+  - WEBPACK_VERSION=4 HTML_PLUGIN_VERSION=3
+  - WEBPACK_VERSION=4 HTML_PLUGIN_VERSION=4
+
+install: 
+  - npm install
+  - npm install -D webpack@$WEBPACK_VERSION || true
+  - npm install -D html-webpack-plugin@$HTML_PLUGIN_VERSION || true
+
+script: 
+  - npm test
+  - npm run build
+
+deploy:
+  skip_cleanup: true
+  on:
+    repo: swimmadude66/html-webpack-skip-assets-plugin
+    node: "10"
+    tags: true
+    branch: master
+    if: env(WEBPACK_VERSION)=4 AND env(HTML_PLUGIN_VERSION)=3
+  provider: npm
+  email: "swimmadude66@gmail.com"
