@@ -15,11 +15,6 @@ _Skip adding certain output files to the html file. Built as a drop-in replaceme
     plugins: [
         new HtmlWebpackPlugin({
             filename: join(OUTPUT_DIR, './dist/index.html'),
-            hash: false,
-            inject: 'body',
-            minify: minifyOptions,
-            showErrors: false
-            template: join(__dirname, './src/index.html'),
             // Skip Assets options can be added here
             excludeAssets: ['polyfill.**.js', /styles\..*js$/i]
             // OR
@@ -34,7 +29,28 @@ _Skip adding certain output files to the html file. Built as a drop-in replaceme
     ]
 ```
 
-The plugin takes a configuration argument with a key called `skipAssets`. This is an array of file globs (provided via [minimatch](https://github.com/isaacs/minimatch)) or regex patterns representing which output files to skip adding to the output html. In order to ease migration from html-webpack-exclude-assets-plugin](https://www.npmjs.com/package/html-webpack-exclude-assets-plugin), the plugin also supports passing `excludeAssets` as the option key, as well as the ability to add either key to the HtmlWebpackPlugin options. All provided lists will be concatenated and used to filter the assets.
+The plugin takes a configuration argument with a key called `skipAssets`. This is an array of file globs (provided via [minimatch](https://github.com/isaacs/minimatch)) or regex patterns representing which output files to skip adding to the output html. In order to ease migration from [html-webpack-exclude-assets-plugin](https://www.npmjs.com/package/html-webpack-exclude-assets-plugin), the plugin also supports passing `excludeAssets` as the option key, as well as the ability to add either key to the HtmlWebpackPlugin options. All provided lists will be concatenated and used to filter the assets.
+
+## Custom insertion
+
+This exclusion will also work for `inject: false`:
+
+```js
+new HtmlWebpackPlugin({
+  inject: false,
+  excludeAssets: ['polyfill.**.js', /styles\..*js$/i]
+  templateContent: ({htmlWebpackPlugin}) => `
+    <html>
+      <head>
+        ${htmlWebpackPlugin.tags.headTags}
+      </head>
+      <body>
+        ${htmlWebpackPlugin.tags.bodyTags}
+      </body>
+    </html>
+  `
+})
+```
 
 ## Testing
 Testing is done via ts-node and mocha. Test files can be found in `/spec`, and will be auto-discovered as long as the file ends in `.spec.ts`. Just run `npm test` after installing to see the tests run.
