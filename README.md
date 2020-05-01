@@ -29,7 +29,7 @@ _Skip adding certain output files to the html file. Built as a drop-in replaceme
     ]
 ```
 
-The plugin takes a configuration argument with a key called `skipAssets`. This is an array of file globs (provided via [minimatch](https://github.com/isaacs/minimatch)) or regex patterns representing which output files to skip adding to the output html. In order to ease migration from html-webpack-exclude-assets-plugin](https://www.npmjs.com/package/html-webpack-exclude-assets-plugin), the plugin also supports passing `excludeAssets` as the option key, as well as the ability to add either key to the HtmlWebpackPlugin options. All provided lists will be concatenated and used to filter the assets.
+The plugin takes a configuration argument with a key called `skipAssets`. This is an array of file globs (provided via [minimatch](https://github.com/isaacs/minimatch)) or regex patterns representing which output files to skip adding to the output html. In order to ease migration from [html-webpack-exclude-assets-plugin](https://www.npmjs.com/package/html-webpack-exclude-assets-plugin), the plugin also supports passing `excludeAssets` as the option key, as well as the ability to add either key to the HtmlWebpackPlugin options. All provided lists will be concatenated and used to filter the assets.
 
 ## Custom insertion
 
