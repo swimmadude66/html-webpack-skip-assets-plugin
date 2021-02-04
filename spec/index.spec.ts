@@ -41,7 +41,7 @@ const webpackDevOptions: webpack.Configuration = {
                 use: [{
                     loader: MiniCssExtractPlugin.loader
                 },{
-                    loader: 'css-loader'   
+                    loader: 'css-loader'
                 }]
             }
         ]
@@ -74,6 +74,9 @@ function getOutput(): string {
     expect(!!htmlContents).to.be.true;
     return htmlContents;
 }
+
+console.log('\nWEBPACK VERSION', webpack.version,'\n');
+console.log('\nHTML-WEBPACK_PLUGIN VERSION', HtmlWebpackPlugin.version,'\n');
 
 describe('HtmlWebpackSkipAssetsPlugin Development Mode', () => {
 
