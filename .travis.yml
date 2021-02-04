@@ -6,15 +6,18 @@ node_js:
   - "14"
 
 env:
+  # - WEBPACK_VERSION=3 HTML_PLUGIN_VERSION=3
   - WEBPACK_VERSION=4 HTML_PLUGIN_VERSION=3
   - WEBPACK_VERSION=4 HTML_PLUGIN_VERSION=4
+  - WEBPACK_VERSION=4 HTML_PLUGIN_VERSION=5
+  - WEBPACK_VERSION=5 HTML_PLUGIN_VERSION=5
 
-install: 
+install:
   - npm install
   - npm install -D webpack@$WEBPACK_VERSION || true
   - npm install -D html-webpack-plugin@$HTML_PLUGIN_VERSION || true
 
-script: 
+script:
   - npm test
   - npm run build
 
@@ -25,7 +28,7 @@ deploy:
     node: "10"
     tags: true
     branch: master
-    if: env(WEBPACK_VERSION)=4 AND env(HTML_PLUGIN_VERSION)=3
+    if: env(WEBPACK_VERSION)=4 AND env(HTML_PLUGIN_VERSION)=4
   provider: npm
   email: "swimmadude66@gmail.com"
   api_key:
