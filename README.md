@@ -1,7 +1,10 @@
 # Html Webpack Skip Assets Plugin
 _Skip adding certain output files to the html file. Built as a drop-in replacement for [html-webpack-exclude-assets-plugin](https://www.npmjs.com/package/html-webpack-exclude-assets-plugin) and works with newer [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) versions_
 
-[![Build Status](https://travis-ci.org/swimmadude66/html-webpack-skip-assets-plugin.svg?branch=master)](https://travis-ci.org/swimmadude66/html-webpack-skip-assets-plugin)
+![build-plugin](https://github.com/swimmadude66/html-webpack-skip-assets-plugin/workflows/build-plugin/badge.svg?branch=master)
+
+[![NPM](https://nodei.co/npm/html-webpack-skip-assets-plugin.png?compact=true)](https://npmjs.org/package/html-webpack-skip-assets-plugin)
+
 
 ## Configuration
 
