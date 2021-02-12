@@ -1,6 +1,6 @@
 {
   "name": "html-webpack-skip-assets-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a plugin for html-webpack-plugin to skip adding certain output files to the html",
   "main": "dist/plugin.js",
   "scripts": {

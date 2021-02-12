@@ -1,15 +1,23 @@
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as minimatch from 'minimatch';
 
+type AssetMatchFunction = (asset: HtmlWebpackPlugin.HtmlTagObject) => boolean;
+
+export type AssetMatcher = (
+    string
+    | RegExp
+    | AssetMatchFunction
+);
+
 export interface SkipAssetsConfig {
     /**
      * skipAssets {string | RegExp} - backwards compatible option
      */
-    skipAssets?: (string | RegExp)[];
+    skipAssets?: (AssetMatcher)[];
     /**
      * excludeAssets {string | RegExp} - backwards compatible option
      */
-    excludeAssets?: (string | RegExp)[]; // for backwards compatibility
+    excludeAssets?: (AssetMatcher)[]; // for backwards compatibility
     // in case I want to add other optional configs later without breaking old uses
 }
 
@@ -82,18 +90,23 @@ export class HtmlWebpackSkipAssetsPlugin {
         }
     }
 
-    private _skipAssets(assets: any[], filters: (string|RegExp)[]): any[]  {
+    private _skipAssets(assets: HtmlWebpackPlugin.HtmlTagObject[], matchers: AssetMatcher[]): any[]  {
         return assets.filter(a => {
-            const skipped = filters.some(pattern => {
-                if (!pattern) {
+            const skipped = matchers.some(matcher => {
+                if (!matcher) {
                     return false;
                 }
-                const asset = a.attributes.src || a.attributes.href;
-                if (typeof pattern === 'string') {
-                    return minimatch(asset, pattern);
+                const assetUrl: string = (a.attributes.src || a.attributes.href) as string;
+                if (typeof matcher === 'string') {
+                    return minimatch(assetUrl, matcher);
                 }
-                if (pattern.constructor && pattern.constructor.name === 'RegExp') {
-                    return (pattern as RegExp).test(asset);
+                if (matcher.constructor && matcher.constructor.name === 'RegExp') {
+                    const regexMatcher = (matcher as RegExp);
+                    return !!(assetUrl.match(regexMatcher));
+                }
+                if (typeof matcher === 'function') {
+                    const matchesCallback = matcher(a);
+                    return !!(matchesCallback);
                 }
                 return false;
             });
