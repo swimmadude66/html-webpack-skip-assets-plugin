@@ -460,5 +460,26 @@ configs.forEach(c => {
                 done();
             });
         });
+
+        it('should not fail on meta links - plugin.skipAssets.regex', (done) => {
+            webpack({ ...c.options,
+                plugins: [
+                    ...c.options.plugins,
+                    new HtmlWebpackPlugin({
+                        ...HtmlWebpackPluginOptions,
+                        meta: {
+                            robots: `none`,
+                        },
+                    }),
+                    new HtmlWebpackSkipAssetsPlugin({
+                        skipAssets: [/styles.js/]
+                    }),
+                ]
+            }, (err, stats) => {
+                expect(!!err).to.be.false;
+                expect(stats.hasErrors()).to.be.false;
+                done();
+            });
+        });
     });
 });

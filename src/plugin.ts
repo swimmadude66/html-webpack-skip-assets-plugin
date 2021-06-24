@@ -96,7 +96,7 @@ export class HtmlWebpackSkipAssetsPlugin {
                 if (!matcher) {
                     return false;
                 }
-                const assetUrl: string = (a.attributes.src || a.attributes.href) as string;
+                const assetUrl: string = (a.attributes.src ?? a.attributes.href ?? '') as string;
                 if (typeof matcher === 'string') {
                     return minimatch(assetUrl, matcher);
                 }
