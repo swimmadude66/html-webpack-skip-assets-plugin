@@ -96,17 +96,23 @@ export class HtmlWebpackSkipAssetsPlugin {
                 if (!matcher) {
                     return false;
                 }
+                
+                if (typeof matcher === 'function') {
+                    const matchesCallback = matcher(a);
+                    return !!(matchesCallback);
+                }
+
                 const assetUrl: string = (a.attributes.src || a.attributes.href) as string;
+                if (assetUrl === undefined) {
+                    return false
+                }
+
                 if (typeof matcher === 'string') {
                     return minimatch(assetUrl, matcher);
                 }
                 if (matcher.constructor && matcher.constructor.name === 'RegExp') {
                     const regexMatcher = (matcher as RegExp);
                     return !!(assetUrl.match(regexMatcher));
-                }
-                if (typeof matcher === 'function') {
-                    const matchesCallback = matcher(a);
-                    return !!(matchesCallback);
                 }
                 return false;
             });
