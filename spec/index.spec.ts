@@ -117,6 +117,33 @@ configs.forEach(c => {
             });
         });
 
+        it('should not fail on meta links', (done) => {
+            webpack({ ...c.options,
+                plugins: [
+                    ...c.options.plugins,
+                    new HtmlWebpackPlugin({
+                        ...HtmlWebpackPluginOptions,
+                        meta: {
+                            robots: `none`,
+                        },
+                    }),
+                    new HtmlWebpackSkipAssetsPlugin({
+                        skipAssets: [/styles\..*js/]
+                    }),
+                ]
+            }, (err, stats) => {
+                expect(!!err).to.be.false;
+                expect(stats.hasErrors()).to.be.false;
+                const html = getOutput();
+                expect(/script\s+.*?src\s*=\s*"(\/)?polyfill(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'could not find polyfill bundle').to.be.true;
+                expect(/script\s+.*?src\s*=\s*"(\/)?app(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'could not find app bundle').to.be.true;
+                expect(/script\s+.*?src\s*=\s*"(\/)?styles(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'did not skip styles js bundle').to.be.false;
+                expect(/link\s+.*?href\s*=\s*"(\/)?styles(\.[a-z0-9]+\.min)?\.css"/i.test(html), 'could not find styles css bundle').to.be.true;
+                expect(/meta\s+.*?name\s*=\s*"robots"/i.test(html), 'could not find meta tag').to.be.true;
+                done();
+            });
+        });
+
         it('should skip adding asset if the pattern matches - plugin.skipAssets.minimatch', (done) => {
             webpack({ ...c.options,
                 plugins: [
@@ -457,27 +484,6 @@ configs.forEach(c => {
                 expect(/script\s+.*?src\s*=\s*"(\/)?app(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'could not find app bundle').to.be.true;
                 expect(/script\s+.*?src\s*=\s*"(\/)?styles(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'did not skip styles js bundle').to.be.false;
                 expect(/link\s+.*?href\s*=\s*"(\/)?styles(\.[a-z0-9]+\.min)?\.css"/i.test(html), 'could not find styles css bundle').to.be.true;
-                done();
-            });
-        });
-
-        it('should not fail on meta links - plugin.skipAssets.regex', (done) => {
-            webpack({ ...c.options,
-                plugins: [
-                    ...c.options.plugins,
-                    new HtmlWebpackPlugin({
-                        ...HtmlWebpackPluginOptions,
-                        meta: {
-                            robots: `none`,
-                        },
-                    }),
-                    new HtmlWebpackSkipAssetsPlugin({
-                        skipAssets: [/styles.js/]
-                    }),
-                ]
-            }, (err, stats) => {
-                expect(!!err).to.be.false;
-                expect(stats.hasErrors()).to.be.false;
                 done();
             });
         });
