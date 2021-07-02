@@ -9,6 +9,10 @@
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/swimmadude66/html-webpack-skip-assets-plugin.git"
+  },
   "keywords": [
     "html-webpack-plugin",
     "exclude-assets",
