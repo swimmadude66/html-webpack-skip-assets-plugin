@@ -5,18 +5,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        webpack: [4]
-        html-webpack: [4, 3]
-        include:
-          - webpack: 5
-            html-webpack: 5
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
       - run: npm install
-      - run: npm install -D webpack@${{ matrix.webpack }} html-webpack-plugin@${{ matrix.html-webpack }}
       - run: npm run test
       - run: npm run build
   deploy:
@@ -24,7 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.8.0'
       - run: npm install
       - uses: JS-DevTools/npm-publish@v1
         with:
