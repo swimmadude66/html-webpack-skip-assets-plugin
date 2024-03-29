@@ -12,7 +12,7 @@ jobs:
             html-webpack: 5
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
       - run: npm install
       - run: npm install -D webpack@${{ matrix.webpack }} html-webpack-plugin@${{ matrix.html-webpack }}
       - run: npm run test
