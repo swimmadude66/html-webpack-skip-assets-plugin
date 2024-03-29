@@ -14,9 +14,10 @@
       ]
     },
     "exclude": [
-        "node_modules/",
+        "**/node_modules/",
         "spec/",
         "**/*.spec.js",
         "**/*.spec.ts",
+        "**/*.d.ts"
     ]
   }
