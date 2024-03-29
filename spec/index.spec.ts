@@ -102,7 +102,7 @@ configs.forEach(c => {
         it('should do nothing when no patterns are specified', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin(),
                 ]
@@ -120,7 +120,7 @@ configs.forEach(c => {
         it('should not fail on meta links', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         meta: {
@@ -133,7 +133,7 @@ configs.forEach(c => {
                 ]
             }, (err, stats) => {
                 expect(!!err).to.be.false;
-                expect(stats.hasErrors()).to.be.false;
+                expect(stats?.hasErrors()).to.be.false;
                 const html = getOutput();
                 expect(/script\s+.*?src\s*=\s*"(\/)?polyfill(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'could not find polyfill bundle').to.be.true;
                 expect(/script\s+.*?src\s*=\s*"(\/)?app(\.[a-z0-9]+\.min)?\.js"/i.test(html), 'could not find app bundle').to.be.true;
@@ -147,7 +147,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.skipAssets.minimatch', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         skipAssets: ['styles**.js']
@@ -167,7 +167,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.excludeAssets.minimatch', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         excludeAssets: ['styles**.js']
@@ -187,7 +187,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.skipAssets.regex', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         skipAssets: [/styles\..*js/i]
@@ -207,7 +207,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.excludeAssets.regex', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         excludeAssets: [/styles\..*js/i]
@@ -227,7 +227,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.skipAssets.regex-global', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         skipAssets: [/styles\./gi]
@@ -247,7 +247,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.excludeAssets.regex-global', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         excludeAssets: [/styles\./gi]
@@ -267,7 +267,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.skipAssets.callback', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         skipAssets: [(asset) => {
@@ -291,7 +291,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - plugin.excludeAssets.callback', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin(HtmlWebpackPluginOptions),
                     new HtmlWebpackSkipAssetsPlugin({
                         excludeAssets: [(asset) => {
@@ -315,7 +315,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.skipAssets.minimatch', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         skipAssets: ['styles**.js']
@@ -336,7 +336,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.excludeAssets.minimatch', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         excludeAssets: ['styles**.js']
@@ -357,7 +357,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.skipAssets.regex', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         skipAssets: [/styles\..*js/i]
@@ -378,7 +378,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.excludeAssets.regex', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         excludeAssets: [/styles\..*js/i]
@@ -399,7 +399,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.skipAssets.regex-global', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         skipAssets: [/styles\./gi]
@@ -420,7 +420,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.excludeAssets.regex-global', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         excludeAssets: [/styles\./gi]
@@ -441,7 +441,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.skipAssets.callback', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         skipAssets: [(asset) => {
@@ -466,7 +466,7 @@ configs.forEach(c => {
         it('should skip adding asset if the pattern matches - parent.excludeAssets.callback', (done) => {
             webpack({ ...c.options,
                 plugins: [
-                    ...c.options.plugins,
+                    ...c.options.plugins ?? [],
                     new HtmlWebpackPlugin({
                         ...HtmlWebpackPluginOptions,
                         excludeAssets: [(asset) => {
